@@ -6,50 +6,66 @@ import { AppThunkAction } from './';
 
 export interface HomeState {
     isLoading: boolean;
-    aboutMe: AboutMe | undefined;
+    personalInfo: PersonalInfo | undefined;
 }
 
-export interface AboutMe {
-
+export interface PersonalInfo {
+    firstName: string;
+    lastName: string;
+    description: string;
+    title: string;
+    birthday: string;
+    phoneNumber: string;
+    email: string;
+    website: string;
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
 }
 
 // -----------------
 // ACTIONS - These are serializable (hence replayable) descriptions of state transitions.
 // They do not themselves have any side-effects; they just describe something that is going to happen.
-interface RequestAboutMe {
-    type: 'REQUEST_ABOUT_ME';
+interface RequestPersonalInfo {
+    type: 'REQUEST_PERSONAL_INFO';
 }
 
-interface ReceiveAboutMe {
-    type: 'RECEIVE_ABOUT_ME';
-    aboutMe: AboutMe;
+interface ReceivePersonalInfo {
+    type: 'RECEIVE_PERSONAL_INFO';
+    personalInfo: PersonalInfo;
 }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-type KnownAction = RequestAboutMe | ReceiveAboutMe;
+type KnownAction = RequestPersonalInfo | ReceivePersonalInfo;
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    getAboutMe: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        // Only load data if it's something we don't already have (and are not already loading)
-        fetch(`home/GetAboutMe`)
-            .then(response => response.json() as Promise<AboutMe>)
+    getPersonalInfo: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        fetch(`home/GetPersonalInfo`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("There was a problem getting my personal info.");
+                }
+
+                return response.json() as Promise<PersonalInfo>;
+            })
             .then(data => {
-                dispatch({ type: 'RECEIVE_ABOUT_ME', aboutMe: data });
+                dispatch({ type: 'RECEIVE_PERSONAL_INFO', personalInfo: data });
             });
 
-        dispatch({ type: 'REQUEST_ABOUT_ME' });
+        dispatch({ type: 'REQUEST_PERSONAL_INFO' });
     }
 };
 
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
 
-const unloadedState: HomeState = { aboutMe: undefined, isLoading: false };
+const unloadedState: HomeState = { personalInfo: undefined, isLoading: false };
 
 export const reducer: Reducer<HomeState> = (state: HomeState | undefined, incomingAction: Action): HomeState => {
     if (state === undefined) {
@@ -58,15 +74,15 @@ export const reducer: Reducer<HomeState> = (state: HomeState | undefined, incomi
 
     const action = incomingAction as KnownAction;
     switch (action.type) {
-        case 'REQUEST_ABOUT_ME':
+        case 'REQUEST_PERSONAL_INFO':
             return {
                 ...state,
                 isLoading: true
             };
 
-        case 'RECEIVE_ABOUT_ME':
+        case 'RECEIVE_PERSONAL_INFO':
             return {
-                aboutMe: action.aboutMe,
+                personalInfo: action.personalInfo,
                 isLoading: false
             };
 

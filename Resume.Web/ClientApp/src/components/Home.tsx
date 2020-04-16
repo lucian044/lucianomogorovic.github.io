@@ -12,7 +12,9 @@ type HomeProps =
 class Home extends React.PureComponent<HomeProps> {
 
   componentDidMount() {
-    this.props.getAboutMe();
+    if (!this.props.personalInfo) {
+      this.props.getPersonalInfo();
+    }
   }
 
     public render() {
@@ -22,17 +24,24 @@ class Home extends React.PureComponent<HomeProps> {
           <div>
             <h3>Loading...</h3>
           </div>;
+      } else if (!this.props.personalInfo) {
+        homeMarkup = 
+            <div>
+                <h2>There was an error getting the information about the loan.</h2>
+            </div>;
       } else {
+        var personalInfo = this.props.personalInfo;
+
         homeMarkup = 
           <div className="home">
             <div className="block-content">
-              <h1 className="header">Luciano Mogorovic</h1>
-              <h5 className="sub-header grey">Software Developer</h5>
+              <h1 className="header">{personalInfo.firstName} {personalInfo.lastName}</h1>
+              <h5 className="sub-header grey">{personalInfo.title}</h5>
             </div>
             <div className="block-content">
               <div className="sub-title-color"></div>
               <h1 className="sub-title">About Me</h1>
-              <p>“ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse ! “</p>
+              <p>{personalInfo.description}</p>
             </div>
             <div className="block-content">
               <div className="sub-title-color"></div>
@@ -43,16 +52,16 @@ class Home extends React.PureComponent<HomeProps> {
                     <ul>
                       <li>
                         <b>Address:</b> <br />
-                        1553 Warren Road <br />
-                        Lakewood, 44107 <br />
+                        {personalInfo.streetAddress} <br />
+                        {personalInfo.city}, {personalInfo.zipCode} <br />
                       </li>
                     </ul>
                   </div>
                   <div className="right-column" id="personal-info-right">
                     <ul>
-                      <li><b>Email:</b> lmogorovic44@gmail.com</li>
-                      <li><b>Phone:</b> (216) 659-1931</li>
-                      <li><b>Website:</b> www.lucianomogorovic.dev</li>
+                      <li><b>Email:</b> {personalInfo.email}</li>
+                      <li><b>Phone:</b> {personalInfo.phoneNumber}</li>
+                      <li><b>Website:</b> {personalInfo.website}</li>
                     </ul>
                   </div>
                 </div>
@@ -65,6 +74,6 @@ class Home extends React.PureComponent<HomeProps> {
 };
 
 export default connect(
-    (state: ApplicationState) => state.counter,
+    (state: ApplicationState) => state.home,
     HomeStore.actionCreators
 )(Home as any);

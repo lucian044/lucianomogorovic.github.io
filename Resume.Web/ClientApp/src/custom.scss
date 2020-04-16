@@ -101,6 +101,22 @@ b {
     background-color: #ffffff;
     min-height: 85vh;
     margin-bottom: 10vh;
+    box-shadow:
+    /* The top layer shadow */
+    0 1px 1px rgba(0,0,0,0.15),
+    /* The second layer */
+    0 20px 0 -5px #cdd422,
+    /* The second layer shadow */
+    0 20px 1px -4px rgba(0,0,0,0.15),
+     /* The third layer */
+    0 40px 0 -10px #cdd422,
+    /* The third layer shadow */
+    0 40px 1px -9px rgba(0,0,0,0.15);
+}
+
+.paper {
+    background-color: #cdd422;
+    height: 20px;
 }
 
 .content {

@@ -16,16 +16,16 @@ namespace Resume.Web.Controllers
             _logger = logger;
         }
 
-        [HttpGet("GetAboutMe")]
-        public AboutMeViewModel GetAboutMe()
+        [HttpGet("GetPersonalInfo")]
+        public PersonalInfoViewModel GetPersonalInfo()
         {
-            var aboutMe = new AboutMeViewModel
+            var personalInfo = new PersonalInfoViewModel
             {
                 FirstName = "Luciano",
                 LastName = "Mogorovic",
                 Description = "“ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse ! “",
                 Title = "Software Developer",
-                Birthday = new DateTime(1995, 10, 14),
+                Birthday = "10/14/1995",
                 PhoneNumber = "(216) 659-1931",
                 Email = "lmogorovic44@gmail.com",
                 Website = "www.lucianomogorovic.dev",
@@ -35,7 +35,7 @@ namespace Resume.Web.Controllers
                 ZipCode = "44107"
             };
 
-            return aboutMe;
+            return personalInfo;
         }
     }
 }
