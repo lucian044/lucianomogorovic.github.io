@@ -12,7 +12,7 @@ type ResumeProps =
 class Resume extends React.PureComponent<ResumeProps> {
 
     componentDidMount() {
-        if (this.props.experiences) {
+        if (!this.props.experiences) { 
             this.props.getExperiences();
         }
     }
@@ -30,6 +30,8 @@ class Resume extends React.PureComponent<ResumeProps> {
                 <h2>There was an error getting Luciano's work experiences.</h2>
             </div>;
       } else {
+          let workExperiences = this.props.experiences.filter(exp => exp.type === 'Work');
+          let internExperiences = this.props.experiences.filter(exp => exp.type === 'Intern');
           resumeMarkup =
             <div className="resume">
                 <div className="block-content">
@@ -39,39 +41,43 @@ class Resume extends React.PureComponent<ResumeProps> {
                     <div className="sub-title-color"></div>
                     <h1 className="sub-title">Work Experience</h1>
                     <div className="middle-line">
-                        <div className="two-columns">
-                            <div className="left-column" id="work-experience-left">
-                              <p className="grey">May 2018</p>
-                              <p>Software Developer - Union Home Mortgage</p>
-                            </div>
-                            <div className="right-column" id="work-experience-right">
-                              <p>Full time position as a software developer.</p>
-                            </div>
-                        </div>
+                        {
+                            workExperiences.map((exp) => {
+                                let expDates = exp.endDate ? exp.startDate + ' - ' + exp.endDate : exp.startDate;
+                                return (
+                                    <div className="two-columns">
+                                        <div className="left-column">
+                                          <p className="grey">{expDates}</p>
+                                          <p>{exp.title} - {exp.company}</p>
+                                        </div>
+                                        <div className="right-column">
+                                          <p>{exp.description}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
                     </div>
                 </div>
                 <div className="block-content">
                     <div className="sub-title-color"></div>
                     <h1 className="sub-title">Internship Experience</h1>
                     <div className="middle-line">
-                        <div className="two-columns">
-                            <div className="left-column" id="work-experience-left">
-                              <p className="grey">May 2017 - August 2017</p>
-                              <p>Software Development Intern - Union Home Mortgage</p>
-                            </div>
-                            <div className="right-column" id="work-experience-right">
-                              <p>Second internship of college as software developer at a mortgage company.</p>
-                            </div>
-                        </div>
-                        <div className="two-columns">
-                            <div className="left-column" id="work-experience-left">
-                              <p className="grey">May 2016 - August 2016</p>
-                              <p>Software Development Intern - Sanctuary Software</p>
-                            </div>
-                            <div className="right-column" id="work-experience-right">
-                              <p>First internship of college as software developer at a software company.</p>
-                            </div>
-                        </div>
+                        {
+                            internExperiences.map((exp) => {
+                                return (
+                                    <div className="two-columns">
+                                        <div className="left-column">
+                                          <p className="grey">{exp.startDate} - {exp.endDate}</p>
+                                          <p>{exp.title} - {exp.company}</p>
+                                        </div>
+                                        <div className="right-column">
+                                          <p>{exp.description}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
                     </div>
                 </div>
             </div>;

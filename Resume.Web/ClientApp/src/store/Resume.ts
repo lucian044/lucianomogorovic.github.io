@@ -43,13 +43,12 @@ export const actionCreators = {
         fetch(`resume/GetExperiences`)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("There was a problem getting my personal info.");
+                    throw new Error("There was a problem getting Luciano's experiences.");
                 }
 
                 return response.json() as Promise<Experience[]>;
             })
             .then(data => {
-                console.log(data);
                 dispatch({ type: 'RECEIVE_EXPERIENCES', experiences: data });
             });
 
