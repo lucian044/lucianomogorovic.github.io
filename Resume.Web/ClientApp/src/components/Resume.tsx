@@ -2,16 +2,35 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { ApplicationState } from '../store';
-import * as CounterStore from '../store/Counter';
+import * as ResumeStore from '../store/Resume';
 
 type ResumeProps =
-    CounterStore.CounterState &
-    typeof CounterStore.actionCreators &
+    ResumeStore.ResumeState &
+    typeof ResumeStore.actionCreators &
     RouteComponentProps<{}>;
 
 class Resume extends React.PureComponent<ResumeProps> {
+
+    componentDidMount() {
+        if (this.props.experiences) {
+            this.props.getExperiences();
+        }
+    }
+
     public render() {
-        return (
+        let resumeMarkup = <></>;
+      if (this.props.isLoading) {
+        resumeMarkup =
+          <div>
+            <h3>Loading...</h3>
+          </div>;
+      } else if (!this.props.experiences) {
+        resumeMarkup = 
+            <div>
+                <h2>There was an error getting Luciano's work experiences.</h2>
+            </div>;
+      } else {
+          resumeMarkup =
             <div className="resume">
                 <div className="block-content">
                     <h1 className="header">Resume</h1>
@@ -55,12 +74,13 @@ class Resume extends React.PureComponent<ResumeProps> {
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            </div>;
+      }
+        return resumeMarkup;
     }
 };
 
 export default connect(
-    (state: ApplicationState) => state.counter,
-    CounterStore.actionCreators
-)(Resume);
+    (state: ApplicationState) => state.resume,
+    ResumeStore.actionCreators
+)(Resume as any);

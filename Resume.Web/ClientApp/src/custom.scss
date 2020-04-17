@@ -102,19 +102,20 @@ b {
     min-height: 85vh;
     margin-bottom: 10vh;
     box-shadow:
-    /* The top layer shadow */
-    0 1px 1px rgba(0,0,0,0.15),
-    /* The second layer */
-    0 20px 0 -5px #cdd422,
-    /* The second layer shadow */
-    0 20px 1px -4px rgba(0,0,0,0.15),
-     /* The third layer */
-    0 40px 0 -10px #cdd422,
-    /* The third layer shadow */
-    0 40px 1px -9px rgba(0,0,0,0.15);
+        /* offset-x | offset-y | blur-radius | spread-radius | color */
+        /* The top layer shadow */
+        0 1px 1px rgba(0,0,0,0.15),
+        /* The second layer */
+        0 15px 0 -5px #cdd422,
+        /* The second layer shadow */
+        0 15px 1px -4px rgba(0,0,0,0.15),
+         /* The third layer */
+        0 29px 0 -10px #cdd422,
+        /* The third layer shadow */
+        0 29px 1px -9px rgba(0,0,0,0.15);
 }
 
-.paper {
+.green-strip {
     background-color: #cdd422;
     height: 20px;
 }

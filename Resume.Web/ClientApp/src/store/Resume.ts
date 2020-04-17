@@ -4,86 +4,81 @@ import { AppThunkAction } from './';
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
 
-export interface HomeState {
+export interface ResumeState {
     isLoading: boolean;
-    personalInfo: PersonalInfo | undefined;
+    experiences: Experience[] | undefined;
 }
 
-export interface PersonalInfo {
-    firstName: string;
-    lastName: string;
-    description: string;
+export interface Experience {
+    startDate: string;
+    endDate: string;
     title: string;
-    birthday: string;
-    phoneNumber: string;
-    email: string;
-    website: string;
-    streetAddress: string;
-    city: string;
-    state: string;
-    zipCode: string;
+    company: string;
+    description: string;
+    type: string;
 }
 
 // -----------------
 // ACTIONS - These are serializable (hence replayable) descriptions of state transitions.
 // They do not themselves have any side-effects; they just describe something that is going to happen.
-interface RequestPersonalInfo {
-    type: 'REQUEST_PERSONAL_INFO';
+interface RequestExperiences {
+    type: 'REQUEST_EXPERIENCES';
 }
 
-interface ReceivePersonalInfo {
-    type: 'RECEIVE_PERSONAL_INFO';
-    personalInfo: PersonalInfo;
+interface ReceiveExperiences {
+    type: 'RECEIVE_EXPERIENCES';
+    experiences: Experience[];
 }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-type KnownAction = RequestPersonalInfo | ReceivePersonalInfo;
+type KnownAction = RequestExperiences | ReceiveExperiences;
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    getPersonalInfo: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        fetch(`home/GetPersonalInfo`)
+    getExperiences: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        fetch(`resume/GetExperiences`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("There was a problem getting my personal info.");
                 }
 
-                return response.json() as Promise<PersonalInfo>;
+                return response.json() as Promise<Experience[]>;
             })
             .then(data => {
-                dispatch({ type: 'RECEIVE_PERSONAL_INFO', personalInfo: data });
+                console.log(data);
+                dispatch({ type: 'RECEIVE_EXPERIENCES', experiences: data });
             });
 
-        dispatch({ type: 'REQUEST_PERSONAL_INFO' });
+        dispatch({ type: 'REQUEST_EXPERIENCES' });
     }
 };
 
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
 
-const unloadedState: HomeState = { isLoading: false, personalInfo: undefined };
+const unloadedState: ResumeState = { isLoading: false, experiences: undefined };
 
-export const reducer: Reducer<HomeState> = (state: HomeState | undefined, incomingAction: Action): HomeState => {
+export const reducer: Reducer<ResumeState> = (state: ResumeState | undefined, incomingAction: Action): ResumeState => {
     if (state === undefined) {
         return unloadedState;
     }
 
     const action = incomingAction as KnownAction;
     switch (action.type) {
-        case 'REQUEST_PERSONAL_INFO':
+        case 'REQUEST_EXPERIENCES':
             return {
                 ...state,
                 isLoading: true
             };
 
-        case 'RECEIVE_PERSONAL_INFO':
+        case 'RECEIVE_EXPERIENCES':
             return {
-                personalInfo: action.personalInfo,
-                isLoading: false
+                isLoading: false,
+                experiences: action.experiences
             };
 
         default:

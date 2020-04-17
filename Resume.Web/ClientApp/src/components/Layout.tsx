@@ -8,8 +8,7 @@ export default (props: { children?: React.ReactNode }) => (
             <div className='content'>
                 {props.children}
             </div>
-
-        <div className="paper"></div>
+            <div className="green-strip"></div>
         </div>
     </div>
 );

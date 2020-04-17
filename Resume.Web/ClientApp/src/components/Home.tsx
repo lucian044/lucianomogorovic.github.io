@@ -27,7 +27,7 @@ class Home extends React.PureComponent<HomeProps> {
       } else if (!this.props.personalInfo) {
         homeMarkup = 
             <div>
-                <h2>There was an error getting the information about the loan.</h2>
+                <h2>There was an error getting Luciano's personal info.</h2>
             </div>;
       } else {
         var personalInfo = this.props.personalInfo;
