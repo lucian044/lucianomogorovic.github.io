@@ -163,6 +163,25 @@ class Resume extends React.PureComponent<ResumeProps> {
                                         })
                                     }
                                 </div>
+                                <h4 className='grey margin-top'>Hobbies & Interests</h4>
+                                <div className='four-col-grid'>
+                                    <div className="two-row-grid">
+                                        <i className="fas fa-baseball-ball"></i>
+                                        <p>Baseball</p>
+                                    </div>
+                                    <div className="two-row-grid">
+                                        <i className="fas fa-volleyball-ball"></i>
+                                        <p>Volleyball</p>
+                                    </div>
+                                    <div className="two-row-grid">
+                                        <i className="fas fa-laptop-code"></i>
+                                        <p>Technology</p>
+                                    </div>
+                                    <div className="two-row-grid">
+                                        <i className="fas fa-globe-americas"></i>
+                                        <p>Travel</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
