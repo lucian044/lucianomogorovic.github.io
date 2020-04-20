@@ -1,0 +1,48 @@
+.two-row-grid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    text-align: center;
+}
+
+.two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 50px;
+
+    .left-col {
+        text-align: right;
+        display: grid;
+        row-gap: 20px;
+        align-items: center;
+
+        &.no-gap {
+            row-gap: 0;
+        }
+
+        &.no-center {
+            align-items: normal;
+        }
+    }
+
+    .right-col {
+        text-align: left;
+        display: grid;
+        row-gap: 20px;
+        align-items: center;
+
+        &.no-gap {
+            row-gap: 0;
+        }
+
+        &.no-center { 
+            align-items: normal;
+        }
+    }
+}
+
+.four-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+}
