@@ -30,12 +30,12 @@ class Resume extends React.PureComponent<ResumeProps> {
                 <h2>There was an error getting Luciano's work experiences.</h2>
             </div>;
       } else {
-          let workExperiences = this.props.experiences.filter(exp => exp.type === 'Work');
-          let internExperiences = this.props.experiences.filter(exp => exp.type === 'Intern');
-          let education = this.props.education;
-          let hardSkills = this.props.hardSkills;
-          let softSkills = this.props.softSkills;
-          resumeMarkup =
+        let workExperiences = this.props.experiences.filter(exp => exp.type === 'Work');
+        let internExperiences = this.props.experiences.filter(exp => exp.type === 'Intern');
+        let education = this.props.education;
+        let hardSkills = this.props.hardSkills;
+        let softSkills = this.props.softSkills;
+        resumeMarkup =
             <div className="resume">
                 <div className="block-content">
                     <h1 className="header">Resume</h1>
