@@ -106,6 +106,28 @@ class Resume extends React.PureComponent<ResumeProps> {
                         }
                     </div>
                 </div>
+                <div className="block-content">
+                    <div className="sub-title-color"></div>
+                    <h1 className="sub-title">Skills</h1>
+                    <div className="middle-line">
+                        <div className="two-columns">
+                            <div className="left-column">
+                                <h4 className='grey'>Hard Skills</h4>
+                                <p>Html</p>
+                                <p>CSS</p>
+                                <p>React</p>
+                                <p>Redux</p>
+                                <p>C#</p>
+                                <p>.NET</p>
+                                <p>SQL</p>
+                                <p>Azure Dev/Ops</p>
+                            </div>
+                            <div className="right-column">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>;
       }
         return resumeMarkup;

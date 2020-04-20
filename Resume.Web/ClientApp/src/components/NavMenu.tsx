@@ -3,6 +3,15 @@ import { Link } from 'react-router-dom';
 
 export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }> {
 
+    componentDidMount() {
+        var locationPathname = window.location.pathname.replace('/', '');
+        var currentPage = locationPathname ? locationPathname : 'home';
+        var currentLink = document.getElementById(currentPage);
+        if (currentLink) {
+            currentLink.className = 'link active';
+        }
+    }
+
     changeActiveLink(active: string) {
         var links = document.getElementsByClassName('link');
         Array.from(links).forEach((link) => {
@@ -22,7 +31,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                 <div className='link-grid'>
                     <Link
                         to="/"
-                        className='link active'
+                        className='link'
                         id='home'
                         onClick={() => this.changeActiveLink('home')}>
                             <div className='two-row-grid'>
