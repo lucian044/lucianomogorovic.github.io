@@ -1,5 +1,6 @@
 .content-container {
     background-color: #ffffff;
+    position: relative;
     min-height: 85vh;
     margin-bottom: 10vh;
     box-shadow:
@@ -19,6 +20,9 @@
 .green-strip {
     background-color: #cdd422;
     height: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .content {
