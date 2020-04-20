@@ -71,5 +71,38 @@ namespace Resume.Web.Controllers
 
             return experiences;
         }
+
+        [HttpGet("GetSoftSkills")]
+        public List<string> GetSoftSkills()
+        {
+            var softSkills = new List<string>
+            {
+                "Creative",
+                "Team Player",
+                "Open Minded",
+                "Over Comunicator",
+                "Problem Solver"
+            };
+
+            return softSkills;
+        }
+        
+        [HttpGet("GetHardSkills")]
+        public List<string> GetHardSkills()
+        {
+            var softSkills = new List<string>
+            {
+                "HTML",
+                "CSS",
+                "React",
+                "Redux",
+                "C#",
+                ".NET",
+                "SQL",
+                "Azure Dev/Ops"
+            };
+
+            return softSkills;
+        }
     }
 }

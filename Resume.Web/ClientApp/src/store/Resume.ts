@@ -8,6 +8,8 @@ export interface ResumeState {
     isLoading: boolean;
     experiences: Experience[] | undefined;
     education: Education[] | undefined;
+    hardSkills: string[] | undefined;
+    softSkills: string[] | undefined;
 }
 
 export interface Experience {
@@ -31,37 +33,49 @@ export interface Education {
 // -----------------
 // ACTIONS - These are serializable (hence replayable) descriptions of state transitions.
 // They do not themselves have any side-effects; they just describe something that is going to happen.
-interface RequestExperiences {
-    type: 'REQUEST_EXPERIENCES';
+interface RequestResume {
+    type: 'REQUEST_RESUME';
+}
+
+interface RecieveResume {
+    type: 'RECIEVE_RESUME';
 }
 
 interface ReceiveExperiences {
-    type: 'RECEIVE_EXPERIENCES';
+    type: 'RECIEVE_EXPERIENCES';
     experiences: Experience[];
 }
 
-interface RequestEducation {
-    type: 'REQUEST_EDUCATION';
+interface ReceiveEducation {
+    type: 'RECIEVE_EDUCATION';
+    education: Education[];
 }
 
-interface ReceiveEducation {
-    type: 'RECEIVE_EDUCATION';
-    education: Education[];
+interface RecieveHardSkills {
+    type: 'RECIEVE_HARD_SKILLS';
+    hardSkills: string[];
+}
+
+interface RecieveSoftSkills {
+    type: 'RECIEVE_SOFT_SKILLS';
+    softSkills: string[];
 }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-type KnownAction = RequestExperiences |
+type KnownAction = RequestResume |
+                   RecieveResume |
                    ReceiveExperiences |
-                   RequestEducation |
-                   ReceiveEducation;
+                   ReceiveEducation |
+                   RecieveHardSkills |
+                   RecieveSoftSkills;
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    getExperiences: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    getResume: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
         fetch(`resume/GetExperiences`)
             .then((response) => {
                 if (!response.ok) {
@@ -71,32 +85,61 @@ export const actionCreators = {
                 return response.json() as Promise<Experience[]>;
             })
             .then(data => {
-                dispatch({ type: 'RECEIVE_EXPERIENCES', experiences: data });
-            });
+                dispatch({ type: 'RECIEVE_EXPERIENCES', experiences: data });
+                
+                fetch(`resume/GetEducation`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("There was a problem getting Luciano's education.");
+                        }
+                    
+                        return response.json() as Promise<Education[]>;
+                    })
+                    .then(data => {
+                        dispatch({ type: 'RECIEVE_EDUCATION', education: data });
+                        
+                        fetch(`resume/GetHardSkills`)
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error("There was a problem getting Luciano's hard skills.");
+                                }
+                            
+                                return response.json() as Promise<string[]>;
+                            })
+                            .then(data => {
+                                dispatch({ type: 'RECIEVE_HARD_SKILLS', hardSkills: data });
+                                
+                                fetch(`resume/GetSoftSkills`)
+                                    .then((response) => {
+                                        if (!response.ok) {
+                                            throw new Error("There was a problem getting Luciano's soft skills.");
+                                        }
+                                    
+                                        return response.json() as Promise<string[]>;
+                                    })
+                                    .then(data => {
+                                        dispatch({ type: 'RECIEVE_SOFT_SKILLS', softSkills: data });
 
-        dispatch({ type: 'REQUEST_EXPERIENCES' });
-    },
-    getEducation: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        fetch(`resume/GetEducation`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("There was a problem getting Luciano's education.");
-                }
+                                        dispatch({ type: 'RECIEVE_RESUME' });
+                                    });
+                                });
+                        });
+        });
 
-                return response.json() as Promise<Education[]>;
-            })
-            .then(data => {
-                dispatch({ type: 'RECEIVE_EDUCATION', education: data });
-            });
-
-        dispatch({ type: 'REQUEST_EDUCATION' });
+        dispatch({ type: 'REQUEST_RESUME' });
     }
 };
 
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
 
-const unloadedState: ResumeState = { isLoading: false, experiences: undefined, education: undefined };
+const unloadedState: ResumeState = { 
+    isLoading: false,
+    experiences: undefined,
+    education: undefined,
+    hardSkills: undefined,
+    softSkills: undefined
+};
 
 export const reducer: Reducer<ResumeState> = (state: ResumeState | undefined, incomingAction: Action): ResumeState => {
     if (state === undefined) {
@@ -105,30 +148,40 @@ export const reducer: Reducer<ResumeState> = (state: ResumeState | undefined, in
 
     const action = incomingAction as KnownAction;
     switch (action.type) {
-        case 'REQUEST_EXPERIENCES':
+        case 'REQUEST_RESUME':
             return {
                 ...state,
                 isLoading: true
             };
 
-        case 'RECEIVE_EXPERIENCES':
+        case 'RECIEVE_RESUME':
             return {
                 ...state,
-                isLoading: false,
+                isLoading: false
+            };
+
+        case 'RECIEVE_EXPERIENCES':
+            return {
+                ...state,
                 experiences: action.experiences
             };
 
-        case 'REQUEST_EDUCATION':
+        case 'RECIEVE_EDUCATION':
             return {
                 ...state,
-                isLoading: true
+                education: action.education
             };
 
-        case 'RECEIVE_EDUCATION':
+        case 'RECIEVE_HARD_SKILLS':
             return {
                 ...state,
-                isLoading: false,
-                education: action.education
+                hardSkills: action.hardSkills
+            };
+
+        case 'RECIEVE_SOFT_SKILLS':
+            return {
+                ...state,
+                softSkills: action.softSkills
             };
 
         default:
