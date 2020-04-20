@@ -13,7 +13,6 @@ class Resume extends React.PureComponent<ResumeProps> {
 
     componentDidMount() {
         if (!this.props.experiences || !this.props.education || !this.props.hardSkills || !this.props.softSkills) { 
-            console.log('getting resume...');
             this.props.getResume();
         }
     }
