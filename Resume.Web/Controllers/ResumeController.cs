@@ -52,5 +52,24 @@ namespace Resume.Web.Controllers
 
             return experiences;
         }
+
+        [HttpGet("GetEducation")]
+        public List<EducationViewModel> GetEducation()
+        {
+            var experiences = new List<EducationViewModel>
+            {
+                new EducationViewModel 
+                {
+                    StartDate = "August 2014",
+                    EndDate = "May 2018",
+                    School = "University of Akron",
+                    DegreeType = "Bachelor's Degree",
+                    FieldOfStudy = "Computer Science",
+                    Description = "Full time position as software developer.",
+                }
+            };
+
+            return experiences;
+        }
     }
 }

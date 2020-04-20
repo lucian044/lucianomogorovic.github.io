@@ -15,6 +15,9 @@ class Resume extends React.PureComponent<ResumeProps> {
         if (!this.props.experiences) { 
             this.props.getExperiences();
         }
+        if (!this.props.education) {
+            this.props.getEducation();
+        }
     }
 
     public render() {
@@ -24,7 +27,7 @@ class Resume extends React.PureComponent<ResumeProps> {
           <div>
             <h3>Loading...</h3>
           </div>;
-      } else if (!this.props.experiences) {
+      } else if (!this.props.experiences || !this.props.education) {
         resumeMarkup = 
             <div>
                 <h2>There was an error getting Luciano's work experiences.</h2>
@@ -32,6 +35,7 @@ class Resume extends React.PureComponent<ResumeProps> {
       } else {
           let workExperiences = this.props.experiences.filter(exp => exp.type === 'Work');
           let internExperiences = this.props.experiences.filter(exp => exp.type === 'Intern');
+          let education = this.props.education;
           resumeMarkup =
             <div className="resume">
                 <div className="block-content">
@@ -73,6 +77,28 @@ class Resume extends React.PureComponent<ResumeProps> {
                                         </div>
                                         <div className="right-column">
                                           <p>{exp.description}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+                </div>
+                <div className="block-content">
+                    <div className="sub-title-color"></div>
+                    <h1 className="sub-title">Education</h1>
+                    <div className="middle-line">
+                        {
+                            education.map((edu) => {
+                                return (
+                                    <div className="two-columns">
+                                        <div className="left-column">
+                                          <p className="grey">{edu.startDate} - {edu.endDate}</p>
+                                          <p>{edu.school}</p>
+                                          <p>{edu.degreeType} - {edu.fieldOfStudy}</p>
+                                        </div>
+                                        <div className="right-column">
+                                          <p>{edu.description}</p>
                                         </div>
                                     </div>
                                 );
