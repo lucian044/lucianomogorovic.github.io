@@ -24,27 +24,52 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                         to="/"
                         className='link active'
                         id='home'
-                        onClick={() => this.changeActiveLink('home')}>Home</Link>
+                        onClick={() => this.changeActiveLink('home')}>
+                            <div className='two-row-grid'>
+                                <i className="fas fa-home"></i>
+                                Home
+                            </div>
+                    </Link>
                     <Link
                         to="/resume"
                         className='link'
                         id='resume'
-                        onClick={() => this.changeActiveLink('resume')}>Resume</Link>
+                        onClick={() => this.changeActiveLink('resume')}>
+                            <div className="two-row-grid">
+                                <i className="fas fa-list-ul"></i>
+                                Resume
+                            </div>
+                    </Link>
                     <Link
                         to="/accomplishments"
                         className='link'
                         id='accomplishments'
-                        onClick={() => this.changeActiveLink('accomplishments')}>Accomplishments</Link>
+                        onClick={() => this.changeActiveLink('accomplishments')}>
+                            <div className="two-row-grid">
+                                <i className="fas fa-trophy"></i>
+                                Accomplishments
+                            </div>
+                    </Link>
                     <Link
                         to="/references"
                         className='link'
                         id='references'
-                        onClick={() => this.changeActiveLink('references')}>References</Link>
+                        onClick={() => this.changeActiveLink('references')}>
+                            <div className="two-row-grid">
+                                <i className="fas fa-users"></i>
+                                References
+                            </div>
+                    </Link>
                     <Link
                         to="/contact"
                         className='link'
                         id='contact'
-                        onClick={() => this.changeActiveLink('contact')}>Contact</Link>
+                        onClick={() => this.changeActiveLink('contact')}>
+                            <div className="two-row-grid">
+                                <i className="fas fa-phone"></i>
+                                Contact
+                            </div>
+                    </Link>
                 </div>
             </div>
         );
